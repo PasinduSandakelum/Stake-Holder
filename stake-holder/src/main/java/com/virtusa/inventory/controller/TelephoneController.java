@@ -23,7 +23,7 @@ import com.virtusa.inventory.service.TelephoneService;
 public class TelephoneController {
 
 	@Autowired
-	TelephoneService telephoneService;
+	private TelephoneService telephoneService;
 
 	@RequestMapping(value = "/telephone", method = RequestMethod.GET)
 	public ResponseEntity<List<Telephone>> fetchAll() {
@@ -41,10 +41,11 @@ public class TelephoneController {
 		if(!optionalTelephone.isPresent()){
 			throw new TelephoneNotFoundException("ID" +id);
 		}
+		telephone.setId(id);
 		return ResponseEntity.ok(telephoneService.save(telephone));
 	}
 
-	@RequestMapping(value = "/telephone", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/telephone/{id}", method = RequestMethod.DELETE)
 	public HttpStatus delete(@PathVariable Integer id) {
 		telephoneService.delete(id);
 		return HttpStatus.OK;

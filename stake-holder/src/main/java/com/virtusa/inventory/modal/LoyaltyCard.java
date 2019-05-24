@@ -3,6 +3,7 @@ package com.virtusa.inventory.modal;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +31,7 @@ public class LoyaltyCard {
 
 	@NotNull(message = "Number can not be empty")
 	@Size(min = 8, max = 8)
+	@Column(unique = true)
 	private String number;
 
 	private Double pointBalance;
@@ -47,7 +49,6 @@ public class LoyaltyCard {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id", referencedColumnName = "id")
-	@JsonIgnore
 	private Category category;
 
 	public String getName() {

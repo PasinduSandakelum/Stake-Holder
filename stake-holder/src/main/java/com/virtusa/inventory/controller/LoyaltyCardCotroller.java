@@ -50,7 +50,7 @@ public class LoyaltyCardCotroller {
 	public ResponseEntity<LoyaltyCard> update(@PathVariable Integer id, @Valid @RequestBody LoyaltyCard loyaltyCard) {
 		Optional<LoyaltyCard> optionalLoyalty = loyaltyCardService.findOne(id);
 		if (!optionalLoyalty.isPresent()) {
-			return ResponseEntity.notFound().build();
+			throw new LoyaltyCardNotFoundException("id-" + id);
 		}
 
 		loyaltyCard.setId(id);

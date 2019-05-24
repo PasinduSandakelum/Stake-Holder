@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.virtusa.inventory.modal.Customer;
@@ -42,5 +43,14 @@ public class CustomerServiceImpl implements CustomerService {
 	public void deleteCustomer(Integer id) {
 		customerRepository.deleteById(id);
 	}
+
+	@Override
+	public Optional<Customer> fetchCustomer(Integer id) {
+		
+		return customerRepository.findById(id);
+	}
+
+	
+	
 
 }
