@@ -40,6 +40,7 @@ public class AddressController {
 		if(!optionalAddress.isPresent()){
 			throw new AddressNotFoundException("id" + id);
 		}
+		address.setId(id);
 		return ResponseEntity.ok(addressService.save(address));
 	}
 

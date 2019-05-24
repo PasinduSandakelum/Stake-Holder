@@ -59,16 +59,25 @@ public class AddressControllerTest {
 	public void testUpdateAddress() throws Exception {
 		
 		Address address = new Address();
+		address.setId(1);
 		address.setAddressLine1("no 46/3");
 		address.setAddressLine2("Indrajothi Mawatha");
 		address.setCity("Kaduwela");
 		address.setPostalCode("01245");
 		
 		ObjectMapper mapper = new ObjectMapper();
-		String addressAsString = mapper.writeValueAsString(address);
-		mockMvc.perform(MockMvcRequestBuilders.put("/addresses/address/2")
+		String addressPost = mapper.writeValueAsString(address);
+		
+		 mockMvc.perform(MockMvcRequestBuilders.post("/addresses/address")
+	        		.contentType(MediaType.APPLICATION_JSON)
+	        		.content(addressPost));
+		
+		 address.setCity("Kottawa");
+		 address.setId(1);      
+		 String addressPut = mapper.writeValueAsString(address);
+		mockMvc.perform(MockMvcRequestBuilders.put("/addresses/address/12")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(addressAsString))
+				.content(addressPut))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 

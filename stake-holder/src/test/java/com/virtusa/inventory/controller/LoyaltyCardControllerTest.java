@@ -77,23 +77,24 @@ public class LoyaltyCardControllerTest {
 	}
 
 	@Test
-	public void testLoyaltyCardPostStatusIsOk() throws Exception {
+	public void testLoyaltyCardPutStatusIsOk() throws Exception {
 
-		LoyaltyCard loyaltyCard = new LoyaltyCard();
-		loyaltyCard.setName("pasindu");
-		loyaltyCard.setNumber("12345678");
-		loyaltyCard.setPointBalance(10.0);
-		loyaltyCard.setIssuedDate(new Date());
-		loyaltyCard.setExpiryDate(new Date());
+		LoyaltyCard loyaltyCardPut = new LoyaltyCard();
+		loyaltyCardPut.setId(1);
+		loyaltyCardPut.setName("pasindu");
+		loyaltyCardPut.setNumber("12345678");
+		loyaltyCardPut.setPointBalance(10.0);
+		loyaltyCardPut.setIssuedDate(new Date());
+		loyaltyCardPut.setExpiryDate(new Date());
 
 		// Convert LoyaltyCard object into String
 		ObjectMapper mapper = new ObjectMapper();
-		String loyaltyJson = mapper.writeValueAsString(loyaltyCard);
+		String loyaltyJson = mapper.writeValueAsString(loyaltyCardPut);
 //		System.out.println(loyaltyJson);
 
-		System.out.println("\nTesting testLoyaltyCardPostStatusIsOk");
+		System.out.println("\nTesting testLoyaltyCardPutStatusIsOk");
 		// test post method
-		mockMvc.perform(MockMvcRequestBuilders.post("/loyalty/card").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(MockMvcRequestBuilders.put("/loyalty/card/100").contentType(MediaType.APPLICATION_JSON)
 				.content(loyaltyJson)).andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
@@ -102,7 +103,7 @@ public class LoyaltyCardControllerTest {
 
 		System.out.println("\nTesting testLoyaltyCardDeleteStatusIsOk");
 		// test delete method
-		mockMvc.perform(MockMvcRequestBuilders.delete("/loyalty/card/1"))
+		mockMvc.perform(MockMvcRequestBuilders.delete("/loyalty/card/10"))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 }
