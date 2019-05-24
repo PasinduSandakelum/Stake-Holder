@@ -1,6 +1,5 @@
 package com.virtusa.inventory.controller;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +28,7 @@ public class CustomerController {
 	CustomerService customerService;
 
 	@RequestMapping(value = "/details", method = RequestMethod.POST)
-	public ResponseEntity<Customer> save(@Valid @RequestBody Customer customer) {
+	public ResponseEntity<Customer> saveC(@Valid @RequestBody Customer customer) {
 		return ResponseEntity.ok(customerService.save(customer));
 	}
 
@@ -37,7 +36,7 @@ public class CustomerController {
 	public ResponseEntity<Customer> createLoyalty(@PathVariable Integer id,
 			@Valid @RequestBody LoyaltyCard loyaltyCard) {
 		Optional<Customer> optionalCustomer = customerService.findOne(id);
-		if (optionalCustomer.isPresent()) {
+		if (!optionalCustomer.isPresent()) {
 			throw new CustomerNotFoundException("customer is not avilable for Id-" + id);
 
 		}
@@ -49,9 +48,9 @@ public class CustomerController {
 	@RequestMapping(value = "/details/{id}/loyalty/category", method = RequestMethod.POST)
 	public ResponseEntity<Customer> createCustomerLoyaltyCategory(@PathVariable Integer id,
 			@Valid @RequestBody Category category) {
-		
+
 		Optional<Customer> optionalCustomer = customerService.findOne(id);
-		if (optionalCustomer.isPresent()) {
+		if (!optionalCustomer.isPresent()) {
 			throw new CustomerNotFoundException("customer is not avilable for Id-" + id);
 
 		}
@@ -64,11 +63,12 @@ public class CustomerController {
 	public ResponseEntity<List<Customer>> fetchAll() {
 		return ResponseEntity.ok(customerService.fetchAll());
 	}
-	
+
 	@RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Optional<Customer>> fetchCustomer(@PathVariable Integer id) {
 		return ResponseEntity.ok(customerService.fetchCustomer(id));
 	}
+
 	@RequestMapping(value = "/details/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Customer> update(@Valid @PathVariable Integer id, @RequestBody Customer customer) {
 
@@ -81,11 +81,27 @@ public class CustomerController {
 		return ResponseEntity.ok(customerService.save(customer));
 
 	}
+	@RequestMapping(value = "/details/{id}/loyalty/category",method = RequestMethod.PUT)
+	public ResponseEntity<Customer> updateCustomerLoyaltyCategory(@PathVariable Integer id, @RequestBody Category category){
+		Optional<Customer> optional= customerService.fetchCustomer(id);
+		
+		if(!optional.isPresent()) {
+			throw new CustomerNotFoundException("Customer is not avilable");
+		}
+		
+				
+				
+		Customer customerUpdate=optional.get();
+		customerUpdate.getCard().setCategory(category);
+		return ResponseEntity.ok(customerService.save(customerUpdate));
+		
+	}
 
 	@RequestMapping(value = "/details/{id}", method = RequestMethod.DELETE)
 	public HttpStatus delete(@Valid @PathVariable Integer id) {
 		customerService.deleteCustomer(id);
 		return HttpStatus.OK;
 	}
+	
 
 }
