@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.virtusa.inventory.modal.Category;
 
+import net.minidev.json.JSONObject;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(CategoryControllerTest.class)
 public class CategoryControllerTest {
@@ -54,7 +56,8 @@ public class CategoryControllerTest {
 		ObjectMapper mapper = new ObjectMapper();
 		String categoryAsString = mapper.writeValueAsString(category);
 		mockMvc.perform(MockMvcRequestBuilders.post("/categories/detail").contentType(MediaType.APPLICATION_JSON)
-				.content(categoryAsString)).andExpect(MockMvcResultMatchers.status().isOk());
+				.content(categoryAsString))
+				.andExpect(MockMvcResultMatchers.status().isOk());
 		
 		//update
 		category.setId(2);
@@ -80,5 +83,32 @@ public class CategoryControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.put("/categories/detail/1").contentType(MediaType.APPLICATION_JSON)
 				.content(categoryAsString)).andExpect(MockMvcResultMatchers.status().isOk());
 	}
+	
+//	@Test
+//	public void test() throws Exception {
+//		
+//		 JSONObject obj = new JSONObject();
+//
+//	      obj.put("id", new Integer(1));
+//	      obj.put("type", new String("gold"));
+//	      obj.put("typeRange", new Integer(1000));
+//		
+//		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
+//				.post("/categories/detail")
+//				.contentType(MediaType.APPLICATION_JSON_VALUE)
+//				.accept(MediaType.APPLICATION_JSON)
+//				.characterEncoding("UTF-8")
+//				.content(getArticleInJson("gold",3000));
+//		
+//			this.mockMvc.perform(builder)
+//					.andExpect(MockMvcResultMatchers.status().isOk())
+//					.andExpect(MockMvcResultMatchers.content().string(obj.toString()))/*.string("{\"id\":1, \"type\":\"gold\", \"pointRange\":3000}"))*/
+//					.andDo(MockMvcResultHandlers.print());
+//	}
+//
+//	private String getArticleInJson(String type, Integer pointRange) {
+////		return "{\"type\":"+type+", \"pointRange\":"+pointRange+"}";
+//		return "{\"type\":\"" + type + "\", \"pointRange\":"+pointRange+"}";
+//	}
 
 }
