@@ -1,13 +1,17 @@
 package com.virtusa.inventory.controller;
 
+import java.awt.PageAttributes.MediaType;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.virtusa.inventory.exception.CategoryAlreadyExistException;
 import com.virtusa.inventory.exception.CategoryDoesNotExistException;
+import com.virtusa.inventory.exception.CustomerNotFoundException;
 import com.virtusa.inventory.modal.Category;
+import com.virtusa.inventory.modal.Customer;
 import com.virtusa.inventory.service.CategoryService;;
 
 @RestController
@@ -28,6 +34,24 @@ public class CategoryController {
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public ResponseEntity<List<Category>> fetchAll() {
 		return ResponseEntity.ok(categoryService.fetchAll());
+	}
+
+	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Optional<Category>> fetchOne(@PathVariable Integer id) {
+
+		Optional<Category> optional = categoryService.findById(id);
+
+		if (!optional.isPresent()) {
+			throw new CategoryDoesNotExistException("No category exists under id : " + id);
+
+		}
+		return ResponseEntity.ok(optional);
+
+	}
+
+	@RequestMapping(value = "/count", method = RequestMethod.GET)
+	public ResponseEntity<Long> fetchCount() {
+		return ResponseEntity.ok(categoryService.getNoOfCategories());
 	}
 
 	@RequestMapping(value = "/detail", method = RequestMethod.POST)
@@ -91,6 +115,14 @@ public class CategoryController {
 	public HttpStatus delete(@PathVariable Integer id) {
 
 		categoryService.delete(id);
+		return HttpStatus.OK;
+
+	}
+
+	@RequestMapping(value = "/detail", method = RequestMethod.DELETE)
+	public HttpStatus deleteAll() {
+
+		categoryService.deleteAll();
 		return HttpStatus.OK;
 
 	}
