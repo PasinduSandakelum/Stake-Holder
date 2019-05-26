@@ -12,6 +12,10 @@ public interface LoyaltyCardService {
 	LoyaltyCard save(LoyaltyCard loyaltyCard);
 
 	Optional<LoyaltyCard> findOne(Integer id);
+	
+	Optional<LoyaltyCard> findByNumber(String number);
+	
+	Optional<LoyaltyCard> findByCustomerEmail(String email);
 
 	void delete(Integer id);
 

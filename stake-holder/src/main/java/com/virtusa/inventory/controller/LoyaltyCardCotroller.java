@@ -58,7 +58,8 @@ public class LoyaltyCardCotroller {
 	}
 
 	@RequestMapping(value = "/card/{id}/category", method = RequestMethod.PUT)
-	public ResponseEntity<LoyaltyCard> updateCateoryById(@PathVariable Integer id, @Valid @RequestBody Category category) {
+	public ResponseEntity<LoyaltyCard> updateCateoryById(@PathVariable Integer id,
+			@Valid @RequestBody Category category) {
 		Optional<LoyaltyCard> optionalLoyalty = loyaltyCardService.findOne(id);
 		if (!optionalLoyalty.isPresent()) {
 			throw new LoyaltyCardNotFoundException("id-" + id);
@@ -69,17 +70,36 @@ public class LoyaltyCardCotroller {
 	}
 
 	@RequestMapping(value = "/card/update/{id}", method = RequestMethod.GET)
-	public ResponseEntity<LoyaltyCard> updateLoyaltyCardPoints(@PathVariable Integer id,@PathParam(value = "points") Double points) {
+	public ResponseEntity<LoyaltyCard> updateLoyaltyCardPoints(@PathVariable Integer id,
+			@PathParam(value = "points") Double points) {
 		Optional<LoyaltyCard> optionalLoyalty = loyaltyCardService.findOne(id);
 		if (!optionalLoyalty.isPresent()) {
 			throw new LoyaltyCardNotFoundException("id-" + id);
 		}
 		return ResponseEntity.ok(loyaltyCardService.updatePointBalance(id, points));
 	}
-	
+
 	@RequestMapping(value = "/card/{id}", method = RequestMethod.DELETE)
 	public HttpStatus delete(@PathVariable Integer id) {
 		loyaltyCardService.delete(id);
 		return HttpStatus.OK;
+	}
+
+	@RequestMapping(value = "/card", method = RequestMethod.GET)
+	public ResponseEntity<LoyaltyCard> fetchByNumber(@PathParam(value = "number") String number) {
+		Optional<LoyaltyCard> optionalLoyalty = loyaltyCardService.findByNumber(number);
+		if (!optionalLoyalty.isPresent()) {
+			throw new LoyaltyCardNotFoundException("Number - " + number);
+		}
+		return ResponseEntity.ok(optionalLoyalty.get());
+	}
+
+	@RequestMapping(value = "/card", method = RequestMethod.GET)
+	public ResponseEntity<LoyaltyCard> fetchByCustomerEmail(@PathParam(value = "email") String email) {
+		Optional<LoyaltyCard> optionalLoyaltycard = loyaltyCardService.findByCustomerEmail(email);
+		if (!optionalLoyaltycard.isPresent()) {
+			throw new LoyaltyCardNotFoundException("Customer has no card contain email - " + email);
+		}
+		return ResponseEntity.ok(optionalLoyaltycard.get());
 	}
 }

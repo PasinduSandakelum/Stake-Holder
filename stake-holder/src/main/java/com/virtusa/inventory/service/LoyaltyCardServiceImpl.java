@@ -42,4 +42,14 @@ public class LoyaltyCardServiceImpl implements LoyaltyCardService {
 		return loyaltyCardRepository.save(updatedLoyaltyCard);
 
 	}
+
+	@Override
+	public Optional<LoyaltyCard> findByNumber(String number) {
+		return loyaltyCardRepository.findByNumber(number);
+	}
+
+	@Override
+	public Optional<LoyaltyCard> findByCustomerEmail(String email) {
+		return loyaltyCardRepository.findByCustomerEmail(email);
+	}
 }
