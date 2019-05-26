@@ -16,8 +16,6 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class LoyaltyCard {
 
@@ -105,6 +103,14 @@ public class LoyaltyCard {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public Customer getCutomer() {
+		return cutomer;
+	}
+
+	public void setCutomer(Customer cutomer) {
+		this.cutomer = cutomer;
 	}
 
 }
