@@ -15,7 +15,7 @@ public interface LoyaltyCardService {
 	
 	Optional<LoyaltyCard> findByNumber(String number);
 	
-	Optional<LoyaltyCard> findByCustomerEmail(String email);
+//	List<LoyaltyCard> findByCustomerEmail(String email);
 
 	void delete(Integer id);
 

@@ -48,8 +48,8 @@ public class LoyaltyCardServiceImpl implements LoyaltyCardService {
 		return loyaltyCardRepository.findByNumber(number);
 	}
 
-	@Override
-	public Optional<LoyaltyCard> findByCustomerEmail(String email) {
-		return loyaltyCardRepository.findByCustomerEmail(email);
-	}
+//	@Override
+//	public List<LoyaltyCard> findByCustomerEmail(String email) {
+//		return loyaltyCardRepository.findByCustomerEmail(email);
+//	}
 }

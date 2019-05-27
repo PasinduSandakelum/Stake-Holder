@@ -32,7 +32,7 @@ public class LoyaltyCardCotroller {
 		return ResponseEntity.ok(loyaltyCardService.save(loyaltyCard));
 	}
 
-	@RequestMapping(value = "/card", method = RequestMethod.GET)
+	@RequestMapping(value = "/cards", method = RequestMethod.GET)
 	public List<LoyaltyCard> fetchAll() {
 		return loyaltyCardService.fetchAll();
 	}
@@ -94,12 +94,12 @@ public class LoyaltyCardCotroller {
 		return ResponseEntity.ok(optionalLoyalty.get());
 	}
 
-	@RequestMapping(value = "/card", method = RequestMethod.GET)
-	public ResponseEntity<LoyaltyCard> fetchByCustomerEmail(@PathParam(value = "email") String email) {
-		Optional<LoyaltyCard> optionalLoyaltycard = loyaltyCardService.findByCustomerEmail(email);
-		if (!optionalLoyaltycard.isPresent()) {
-			throw new LoyaltyCardNotFoundException("Customer has no card contain email - " + email);
-		}
-		return ResponseEntity.ok(optionalLoyaltycard.get());
-	}
+//	@RequestMapping(value = "/card", method = RequestMethod.GET)
+//	public ResponseEntity<LoyaltyCard> fetchByCustomerEmail(@PathParam(value = "email") String email) {
+//		List<LoyaltyCard> loyaltycard = loyaltyCardService.findByCustomerEmail(email);
+//		if (loyaltycard.isEmpty()) {
+//			throw new LoyaltyCardNotFoundException("Customer has no card contain email - " + email);
+//		}
+//		return ResponseEntity.ok(loyaltycard.get(0));
+//	}
 }
