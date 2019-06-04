@@ -3,6 +3,7 @@ package com.virtusa.inventory.modal;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +15,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class LoyaltyCard {
@@ -30,6 +29,7 @@ public class LoyaltyCard {
 
 	@NotNull(message = "Number can not be empty")
 	@Size(min = 8, max = 8)
+	@Column(unique = true)
 	private String number;
 
 	private Double pointBalance;
@@ -47,7 +47,6 @@ public class LoyaltyCard {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id", referencedColumnName = "id")
-	@JsonIgnore
 	private Category category;
 
 	public String getName() {
@@ -104,6 +103,14 @@ public class LoyaltyCard {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public Customer getCutomer() {
+		return cutomer;
+	}
+
+	public void setCutomer(Customer cutomer) {
+		this.cutomer = cutomer;
 	}
 
 }

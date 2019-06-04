@@ -19,10 +19,10 @@ import com.virtusa.inventory.modal.Telephone;
 public class TelephoneControllerTest {
 
 	@Autowired
-	MockMvc mockMvc;
+	private MockMvc mockMvc;
 
 	@MockBean
-	TelephoneController telephoneController;
+	private TelephoneController telephoneController;
 
 	@Test
 	public void telephoneOkTest() throws Exception {
@@ -52,14 +52,24 @@ public class TelephoneControllerTest {
 	@Test
 	public void updateTelephoneTest() throws Exception {
 
+		Telephone telephone1 = new Telephone();
+		telephone1.setNumber("0710336438");
+		telephone1.setType("mobile");
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		String telephoneObject = objectMapper.writeValueAsString(telephone1);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/telephones/telephone").contentType(MediaType.APPLICATION_JSON)
+				.content(telephoneObject));
+		
 		Telephone telephonePost = new Telephone();
+		telephonePost.setId(1);
 		telephonePost.setNumber("0711758007");
 		telephonePost.setType("home");
 
-		ObjectMapper objectMapper = new ObjectMapper();
 		String telephoneObjectPost = objectMapper.writeValueAsString(telephonePost);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/telephones/telephone").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(MockMvcRequestBuilders.put("/telephones/telephone/1").contentType(MediaType.APPLICATION_JSON)
 				.content(telephoneObjectPost)).andExpect(MockMvcResultMatchers.status().isOk());
 	}
 

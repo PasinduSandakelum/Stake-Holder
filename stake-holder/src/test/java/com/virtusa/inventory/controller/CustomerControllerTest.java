@@ -33,13 +33,13 @@ public class CustomerControllerTest {
 
 	@Test
 	public void testCustomerIsOk() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/details")).
+		mockMvc.perform(MockMvcRequestBuilders.get("/customer/details")).
 		andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 	@Test
 	public void testCustomerNotFound() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/detail")).
+		mockMvc.perform(MockMvcRequestBuilders.get("/customer/detail")).
 		andExpect(MockMvcResultMatchers.status().isNotFound());
 
 	}
@@ -50,7 +50,7 @@ public class CustomerControllerTest {
 		Customer customer = new Customer();
 		customer.setFirstName("saman");
 		customer.setLastName("gunarathne");
-		customer.setDateOfBirth(new Date());
+		customer.setDateOfBirth(new Date("04/09/1993"));
 		customer.setGender("Male");
 		customer.setOccupation("business");
 		customer.setSalutation("Mr");
@@ -60,7 +60,7 @@ public class CustomerControllerTest {
 		ObjectMapper mapper = new ObjectMapper();
 		String customerJson = mapper.writeValueAsString(customer);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/details/{id}/loyalty").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(MockMvcRequestBuilders.post("/customer/details").contentType(MediaType.APPLICATION_JSON)
 				.content(customerJson)).andExpect(MockMvcResultMatchers.status().isOk());
 	}
 }

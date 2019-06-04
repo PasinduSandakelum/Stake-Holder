@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -46,7 +47,7 @@ public class Customer {
 
 	@NotNull(message = "Email can't be empty")
 	@Email(message = "Email is invalid")
-//	@Column(unique = true)
+	@Column(unique = true)
 	private String email;
 	
 	@OneToOne(cascade = CascadeType.ALL)
