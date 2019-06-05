@@ -69,14 +69,10 @@ public class LoyaltyCardCotroller {
 		return ResponseEntity.ok(loyaltyCardService.save(loyaltyCard));
 	}
 
-	@RequestMapping(value = "/card/update/{id}", method = RequestMethod.GET)
-	public ResponseEntity<LoyaltyCard> updateLoyaltyCardPoints(@PathVariable Integer id,
+	@RequestMapping(value = "/card/update/customer/{cid}", method = RequestMethod.GET)
+	public ResponseEntity<LoyaltyCard> updateLoyaltyCardPoints(@PathVariable Integer cid,
 			@PathParam(value = "points") Double points) {
-		Optional<LoyaltyCard> optionalLoyalty = loyaltyCardService.findOne(id);
-		if (!optionalLoyalty.isPresent()) {
-			throw new LoyaltyCardNotFoundException("id-" + id);
-		}
-		return ResponseEntity.ok(loyaltyCardService.updatePointBalance(id, points));
+		return ResponseEntity.ok(loyaltyCardService.updatePointCustomerLoyalty(cid,points));
 	}
 
 	@RequestMapping(value = "/card/{id}", method = RequestMethod.DELETE)

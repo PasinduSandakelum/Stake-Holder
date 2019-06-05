@@ -3,6 +3,7 @@ package com.virtusa.inventory.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.virtusa.inventory.modal.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,9 @@ public class LoyaltyCardServiceImpl implements LoyaltyCardService {
 
 	@Autowired
 	private LoyaltyCardRepository loyaltyCardRepository;
+
+	@Autowired
+	CustomerService customerService;
 
 	@Override
 	public List<LoyaltyCard> fetchAll() {
@@ -41,6 +45,13 @@ public class LoyaltyCardServiceImpl implements LoyaltyCardService {
 		updatedLoyaltyCard.setPointBalance(updatedLoyaltyCard.getPointBalance() + points);
 		return loyaltyCardRepository.save(updatedLoyaltyCard);
 
+	}
+
+	@Override
+	public LoyaltyCard updatePointCustomerLoyalty(Integer cid, Double points) {
+		Customer customer=customerService.findOne(cid).get();
+		Integer loyaltyId = customer.getCard().getId();
+		return this.updatePointBalance(cid,points);
 	}
 
 	@Override

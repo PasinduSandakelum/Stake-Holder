@@ -32,7 +32,7 @@ public class Address {
 	private String postalCode;
 
 	@OneToOne(mappedBy = "address")
-//	@JsonIgnore
+	@JsonIgnore
 	private Customer customer;
 
 	public Integer getId() {
