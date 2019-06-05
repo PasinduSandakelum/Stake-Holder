@@ -20,4 +20,6 @@ public interface LoyaltyCardService {
 	void delete(Integer id);
 
 	LoyaltyCard updatePointBalance(Integer id,Double points);
+
+	LoyaltyCard updatePointCustomerLoyalty(Integer cid,Double points);
 }

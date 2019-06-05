@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -43,10 +44,12 @@ public class LoyaltyCard {
 	private Date expiryDate;
 
 	@OneToOne(mappedBy = "card")
+	@JsonIgnore
 	private Customer cutomer;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id", referencedColumnName = "id")
+
 	private Category category;
 
 	public String getName() {
