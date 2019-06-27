@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.virtusa.inventory.exception.AlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +29,13 @@ public class CustomerController {
 	CustomerService customerService;
 
 	@RequestMapping(value = "/details", method = RequestMethod.POST)
-	public ResponseEntity<Customer> saveC(@Valid @RequestBody Customer customer) {
+	public ResponseEntity<Customer> saveC(@Valid @RequestBody Customer customer) throws AlreadyExistException {
 		return ResponseEntity.ok(customerService.save(customer));
 	}
 
 	@RequestMapping(value = "/details/{id}/loyalty", method = RequestMethod.POST)
 	public ResponseEntity<Customer> createLoyalty(@PathVariable Integer id,
-			@Valid @RequestBody LoyaltyCard loyaltyCard) {
+			@Valid @RequestBody LoyaltyCard loyaltyCard) throws AlreadyExistException {
 		Optional<Customer> optionalCustomer = customerService.findOne(id);
 		if (!optionalCustomer.isPresent()) {
 			throw new CustomerNotFoundException("customer is not avilable for Id-" + id);
@@ -47,7 +48,7 @@ public class CustomerController {
 
 	@RequestMapping(value = "/details/{id}/loyalty/category", method = RequestMethod.POST)
 	public ResponseEntity<Customer> createCustomerLoyaltyCategory(@PathVariable Integer id,
-			@Valid @RequestBody Category category) {
+			@Valid @RequestBody Category category) throws AlreadyExistException {
 
 		Optional<Customer> optionalCustomer = customerService.findOne(id);
 		if (!optionalCustomer.isPresent()) {
@@ -70,7 +71,7 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value = "/details/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Customer> update(@Valid @PathVariable Integer id, @RequestBody Customer customer) {
+	public ResponseEntity<Customer> update(@Valid @PathVariable Integer id, @RequestBody Customer customer) throws AlreadyExistException {
 
 		Optional<Customer> optionalCustomer = customerService.findOne(id);
 		if (!optionalCustomer.isPresent()) {
@@ -82,7 +83,7 @@ public class CustomerController {
 
 	}
 	@RequestMapping(value = "/details/{id}/loyalty/category",method = RequestMethod.PUT)
-	public ResponseEntity<Customer> updateCustomerLoyaltyCategory(@PathVariable Integer id, @RequestBody Category category){
+	public ResponseEntity<Customer> updateCustomerLoyaltyCategory(@PathVariable Integer id, @RequestBody Category category) throws AlreadyExistException {
 		Optional<Customer> optional= customerService.fetchCustomer(id);
 		
 		if(!optional.isPresent()) {
